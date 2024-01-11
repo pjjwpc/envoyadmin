@@ -1,0 +1,18 @@
+{
+    "redisConfig": {
+        "redisAddrs": "redis.betawm.beta:6379",
+        "redisPassword": "",
+        "redisDb": 14,
+        "redisMaxIdle": 0,
+        "redisMaxActive": 0,
+        "redisIdleTimeout": 0,
+        "redisConnectTimeout": 0,
+        "redisReadTimeout": 0,
+        "redisWriteTimeout": 0,
+        "redisPrefix": "envoycontrolplan_",
+        "redisChannel": "envoydatachange"
+    },
+    "dbConfig": {
+        "dsn": "root:betawm.com@tcp(172.17.12.75:3306)/beta_envoy_control_plan?charset=utf8mb4&parseTime=True&loc=Local"
+    }
+
