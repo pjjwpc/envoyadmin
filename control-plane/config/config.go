@@ -10,6 +10,7 @@ import (
 type AppConfig struct {
 	RedisConfig RedisConfig `json:"redisConfig"`
 	DbConfig    DbConfig    `json:"dbConfig"`
+	Port        uint        `json:"port"`
 }
 
 type RedisConfig struct {
