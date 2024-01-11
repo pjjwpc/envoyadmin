@@ -2,6 +2,7 @@ package envoyserver
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net"
 	"time"
@@ -12,6 +13,7 @@ import (
 	clusterservice "github.com/envoyproxy/go-control-plane/envoy/service/cluster/v3"
 	discoverygrpc "github.com/envoyproxy/go-control-plane/envoy/service/discovery/v3"
 	endpointservice "github.com/envoyproxy/go-control-plane/envoy/service/endpoint/v3"
+
 	// ecds "github.com/envoyproxy/go-control-plane/envoy/service/extension/v3"
 	// listenerservice "github.com/envoyproxy/go-control-plane/envoy/service/listener/v3"
 	// routeservice "github.com/envoyproxy/go-control-plane/envoy/service/route/v3"
@@ -62,7 +64,7 @@ func RunServer(_ context.Context, srv server.Server, port uint) error {
 	)
 	grpcServer = grpc.NewServer(grpcOptions...)
 
-	lis, err := net.Listen("tcp", ":8060")
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {
 		log.Fatal(err)
 	}
