@@ -5,3 +5,7 @@ type EnvoyNode struct {
 	NodeName       string `gorm:"node_name" json:"nodeName"`
 	EnvoyClusterId int64  `gorm:"envoy_cluster_id" json:"envoyClusterId"`
 }
+
+func (EnvoyNode) TableName() string {
+	return "envoy_node"
+}
