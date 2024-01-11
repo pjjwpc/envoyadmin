@@ -45,6 +45,5 @@ func init() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	// initDB()
 	// initRedis()
 }

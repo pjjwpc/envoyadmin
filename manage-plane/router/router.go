@@ -3,7 +3,7 @@ package router
 import (
 	"net/http"
 
-	api "envoycontrollplan/controller"
+	api "manage-plane/controller"
 
 	"github.com/gin-gonic/gin"
 )
