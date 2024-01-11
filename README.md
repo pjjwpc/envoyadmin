@@ -17,14 +17,23 @@ ps 前端水平比较差，不做交互式的开发，仅使用yaml编辑器对y
 ## 表设计
 
 envoy_cluster  集群表，不是cds中的cluster，是物理环境中集群，例如 dev、test、prod。
+
 envoy_node     节点，物理环境中的envoy节点表
+
 cds            cluster配置表
+
 eds            endpoint配置表
+
 lds            listener配置表
+
 rds            route配置表
+
 vhds           virtualhost配置表
+
 ecds           扩展配置表
+
 sds            secret配置表 
+
 rls            限流配置表 基于ratelimit服务
 
 
