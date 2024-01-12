@@ -26,7 +26,6 @@ var (
 )
 
 func init() {
-
 	map_cds = map[int64]map[string][]types.Resource{}
 	map_eds = map[int64]map[string][]types.Resource{}
 }

@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	api "manage-plane/controller"
+	"manage-plane/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -11,7 +12,16 @@ import (
 func InitRouter() *gin.Engine {
 	route := gin.Default()
 
+	route.POST("/login", api.ApiGroupApp.SysManagerApi.Login)
+	systemManager := route.Group("/sys")
+	systemManager.Use(middleware.AuthMiddleward())
+	{
+		systemManager.GET("/UserInfo", api.ApiGroupApp.SysManagerApi.UserInfo)
+		systemManager.GET("/GetMenus", api.ApiGroupApp.SysManagerApi.GetMenus)
+		systemManager.DELETE("/logout", api.ApiGroupApp.SysManagerApi.Logout)
+	}
 	envoyCluster := route.Group("/envoy/envoycluster")
+	envoyCluster.Use(middleware.AuthMiddleward())
 	{
 		envoyCluster.GET("/", api.ApiGroupApp.EnvoyClusterApi.Get)
 		envoyCluster.POST("/", api.ApiGroupApp.EnvoyClusterApi.Post)
@@ -20,6 +30,7 @@ func InitRouter() *gin.Engine {
 		envoyCluster.GET("/GetNode", api.ApiGroupApp.EnvoyClusterApi.GetNode)
 	}
 	envoyNode := route.Group("/envoy/envoynode")
+	envoyNode.Use(middleware.AuthMiddleward())
 	{
 		envoyNode.GET("/", api.ApiGroupApp.EnvoyNodeApi.Get)
 		envoyNode.POST("/", api.ApiGroupApp.EnvoyNodeApi.Post)
@@ -28,6 +39,7 @@ func InitRouter() *gin.Engine {
 		envoyNode.DELETE("/", api.ApiGroupApp.EnvoyNodeApi.RemoveNode)
 	}
 	cluster := route.Group("/envoy/cds")
+	cluster.Use(middleware.AuthMiddleward())
 	{
 		cluster.GET("/", api.ApiGroupApp.CdsApi.Get)
 		cluster.POST("/", api.ApiGroupApp.CdsApi.Post)
@@ -36,6 +48,7 @@ func InitRouter() *gin.Engine {
 	}
 
 	endpoint := route.Group("/envoy/eds")
+	endpoint.Use(middleware.AuthMiddleward())
 	{
 		endpoint.GET("/", api.ApiGroupApp.EdsApi.Get)
 		endpoint.POST("/", api.ApiGroupApp.EdsApi.Post)

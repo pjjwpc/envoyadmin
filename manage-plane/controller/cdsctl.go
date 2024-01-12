@@ -1,17 +1,21 @@
 package controller
 
 import (
-	cluster "github.com/envoyproxy/go-control-plane/envoy/config/cluster/v3"
-	"github.com/gin-gonic/gin"
 	"io"
 	"log"
 	"manage-plane/config"
+	"manage-plane/service"
 	"net/http"
 	"strconv"
+
+	cluster "github.com/envoyproxy/go-control-plane/envoy/config/cluster/v3"
+	"github.com/gin-gonic/gin"
 )
 
 type ClusterController struct {
 }
+
+var clusterService = service.ClusterService{}
 
 func (its *ClusterController) Get(c *gin.Context) {
 }
@@ -31,6 +35,11 @@ func OkMsg(c *gin.Context, msg string) {
 }
 
 func (its *ClusterController) Post(c *gin.Context) {
+	u, r, _ := getUserInfo(c)
+	if r != "OP" && r != "ADMIN" && r != "ROOT" {
+		ErrMsg(c, "没有权限")
+		return
+	}
 	clusterInput := cluster.Cluster{}
 	envoy_cluster_id, err := strconv.ParseInt(c.Query("envoyClusterId"), 0, 64)
 	version := c.Query("version")

@@ -5,6 +5,7 @@ type ApiGroup struct {
 	EdsApi          EndPointController
 	EnvoyClusterApi EnvoyClusterController
 	EnvoyNodeApi    EnvoyNodeController
+	SysManagerApi   SysManagerController
 }
 
 var ApiGroupApp = new(ApiGroup)
