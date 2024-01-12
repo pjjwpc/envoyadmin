@@ -13,6 +13,7 @@
         "redisChannel": "envoydatachange"
     },
     "dbConfig": {
-        "dsn": "root:qwe123,.,.@tcp(mysql.wangpc:3306)/envoy_control_plane?charset=utf8mb4&parseTime=True&loc=Local"
-    }
+        "dsn": "root:qwe123,.,.@tcp(mysql.wangpc:3306)/envoy_admin?charset=utf8mb4&parseTime=True&loc=Local"
+    },
+    "port": 8060
 }

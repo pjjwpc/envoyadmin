@@ -81,7 +81,6 @@ func initCluster(envoyClusterId int64) {
 	realCdsList := []types.Resource{}
 	for _, cds := range cdsList {
 		realCds := cluster.Cluster{}
-
 		err := ClusterParser.Unmarshal([]byte(cds.ValueData), &realCds)
 		if err == nil {
 			realCdsList = append(realCdsList, &realCds)

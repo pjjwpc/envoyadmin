@@ -2,6 +2,7 @@ package envoyserver
 
 import (
 	"context"
+	"log"
 	"sync"
 
 	corev3 "github.com/envoyproxy/go-control-plane/envoy/config/core/v3"
@@ -24,6 +25,7 @@ func (cb *Callbacks) Report() {
 	defer cb.mu.Unlock()
 }
 func (cb *Callbacks) OnStreamOpen(c context.Context, id int64, typ string) error {
+	log.Println("StreamOpen")
 	return nil
 }
 func (cb *Callbacks) OnStreamClosed(id int64, node *corev3.Node) {
