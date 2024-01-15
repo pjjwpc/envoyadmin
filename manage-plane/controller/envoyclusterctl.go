@@ -5,6 +5,7 @@ import (
 )
 
 type EnvoyClusterController struct {
+	baseController
 }
 
 func (its *EnvoyClusterController) Get(c *gin.Context) {

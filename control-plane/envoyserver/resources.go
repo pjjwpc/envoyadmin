@@ -6,16 +6,25 @@ import (
 	"control-plane/models"
 	cluster "github.com/envoyproxy/go-control-plane/envoy/config/cluster/v3"
 	endpoint "github.com/envoyproxy/go-control-plane/envoy/config/endpoint/v3"
+	listener "github.com/envoyproxy/go-control-plane/envoy/config/listener/v3"
+	route "github.com/envoyproxy/go-control-plane/envoy/config/route/v3"
+	secret "github.com/envoyproxy/go-control-plane/envoy/extensions/transport_sockets/tls/v3"
 	"github.com/envoyproxy/go-control-plane/pkg/cache/types"
 	"github.com/envoyproxy/go-control-plane/pkg/cache/v3"
+	rateLimit "github.com/envoyproxy/go-control-plane/ratelimit/config/ratelimit/v3"
 	"google.golang.org/protobuf/encoding/protojson"
 	"log"
 	"os"
 )
 
 var (
-	map_cds map[int64]map[string][]types.Resource
-	map_eds map[int64]map[string][]types.Resource
+	map_cds  map[int64]map[string][]types.Resource
+	map_eds  map[int64]map[string][]types.Resource
+	map_lds  map[int64]map[string][]types.Resource
+	map_rds  map[int64]map[string][]types.Resource
+	map_vhds map[int64]map[string][]types.Resource
+	map_sds  map[int64]map[string][]types.Resource
+	map_rls  map[int64]map[string][]types.Resource
 )
 
 var (
@@ -28,6 +37,11 @@ var (
 func init() {
 	map_cds = map[int64]map[string][]types.Resource{}
 	map_eds = map[int64]map[string][]types.Resource{}
+	map_lds = map[int64]map[string][]types.Resource{}
+	map_rds = map[int64]map[string][]types.Resource{}
+	map_vhds = map[int64]map[string][]types.Resource{}
+	map_sds = map[int64]map[string][]types.Resource{}
+	map_rls = map[int64]map[string][]types.Resource{}
 }
 func InitCache() cache.SnapshotCache {
 	l = Logger{}
@@ -114,4 +128,110 @@ func initEndPoint(envoyClusterId int64) {
 		versionEds[edsList[0].Version] = realEdsList
 		map_eds[envoyClusterId] = versionEds
 	}
+}
+
+func initLds(envoyClusterId int64) {
+	ldsList := []models.Lds{}
+	db.Orm.Model(&models.Lds{}).
+		Where("is_delete=0 and enable=1 and envoy_cluster_id=?", envoyClusterId).
+		Find(&ldsList)
+	versionLds := map[string][]types.Resource{}
+	realLdsList := []types.Resource{}
+	for _, lds := range ldsList {
+		realLds := listener.Listener{}
+		err := protojson.Unmarshal([]byte(lds.ValueData), &realLds)
+		if err == nil {
+			realLdsList = append(realLdsList, &realLds)
+		} else {
+			log.Println(err)
+		}
+	}
+	if len(ldsList) > 0 {
+		versionLds[ldsList[0].Version] = realLdsList
+		map_lds[envoyClusterId] = versionLds
+	}
+}
+
+func initRds(envoyClusterId int64) {
+	rdsList := []models.Rds{}
+	db.Orm.Model(&models.Rds{}).
+		Where("is_delete=0 and enable=1 and envoy_cluster_id=?", envoyClusterId).
+		Find(&rdsList)
+	versionRds := map[string][]types.Resource{}
+	realLdsList := []types.Resource{}
+	for _, rds := range rdsList {
+		realRds := route.RouteConfiguration{}
+		err := protojson.Unmarshal([]byte(rds.ValueData), &realRds)
+		if err == nil {
+			realLdsList = append(realLdsList, &realRds)
+		} else {
+			log.Println(err)
+		}
+	}
+	if len(rdsList) > 0 {
+		versionRds[rdsList[0].Version] = realLdsList
+		map_rds[envoyClusterId] = versionRds
+	}
+}
+func initVhds(envoyClusterId int64) {
+	vhdsList := []models.Vhds{}
+	db.Orm.Model(&models.Vhds{}).
+		Where("is_delete=0 and enable=1 and envoy_cluster_id=?", envoyClusterId).
+		Find(&vhdsList)
+	versionVhds := map[string][]types.Resource{}
+	realVhdsList := []types.Resource{}
+	for _, vhds := range vhdsList {
+		realVhds := route.VirtualHost{}
+		err := protojson.Unmarshal([]byte(vhds.ValueData), &realVhds)
+		if err == nil {
+			realVhdsList = append(realVhdsList, &realVhds)
+		} else {
+			log.Println(err)
+		}
+	}
+	if len(vhdsList) > 0 {
+		versionVhds[vhdsList[0].Version] = realVhdsList
+		map_vhds[envoyClusterId] = versionVhds
+	}
+}
+func initSds(envoyClusterId int64) {
+	sdsList := []models.Sds{}
+	db.Orm.Model(&models.Sds{}).
+		Where("is_delete=0 and enable=1 and envoy_cluster_id=?", envoyClusterId).
+		Find(&sdsList)
+	versionSds := map[string][]types.Resource{}
+	realSdsList := []types.Resource{}
+	for _, sds := range sdsList {
+		realSds := secret.Secret{}
+		err := protojson.Unmarshal([]byte(sds.ValueData), &realSds)
+		if err == nil {
+			realSdsList = append(realSdsList, &realSds)
+		} else {
+			log.Println(err)
+		}
+	}
+	if len(sdsList) > 0 {
+		versionSds[sdsList[0].Version] = realSdsList
+		map_sds[envoyClusterId] = versionSds
+	}
+}
+func initRls(envoyClusterId int64) {
+	rlsList := []models.Rls{}
+	db.Orm.Model(&models.Rls{}).Where("is_delete=0 and enable=1 and envoy_cluster_id=?", envoyClusterId).Find(&rlsList)
+	versionRls := map[string][]types.Resource{}
+	realRlsList := []types.Resource{}
+	for _, rls := range rlsList {
+		realRls := rateLimit.RateLimitConfig{}
+		err := protojson.Unmarshal([]byte(rls.ValueData), &realRls)
+		if err == nil {
+			realRlsList = append(realRlsList, &realRls)
+		} else {
+			log.Println(err)
+		}
+	}
+	if len(rlsList) > 0 {
+		versionRls[rlsList[0].Version] = realRlsList
+		map_rls[envoyClusterId] = versionRls
+	}
+
 }

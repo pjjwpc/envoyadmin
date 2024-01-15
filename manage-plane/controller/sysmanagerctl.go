@@ -10,7 +10,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type SysManagerController struct{}
+type SysManagerController struct {
+	baseController
+}
 
 var sysService = service.SysManagerService{}
 

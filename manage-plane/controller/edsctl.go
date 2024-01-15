@@ -5,6 +5,7 @@ import (
 )
 
 type EndPointController struct {
+	baseController
 }
 
 func (its *EndPointController) Get(c *gin.Context) {

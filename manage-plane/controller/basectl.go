@@ -3,9 +3,26 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"log"
+	"net/http"
 )
 
-func getUserInfo(c *gin.Context) (username, role string, userId int) {
+type baseController struct {
+}
+
+func (its *baseController) errMsg(c *gin.Context, msg string) {
+	c.JSON(http.StatusOK, gin.H{
+		"msg":  msg,
+		"code": "-1",
+	})
+}
+
+func (its *baseController) okMsg(c *gin.Context, msg string) {
+	c.JSON(http.StatusOK, gin.H{
+		"msg":  msg,
+		"code": "200",
+	})
+}
+func (its *baseController) getUserInfo(c *gin.Context) (username, role string, userId int) {
 	userAny, exits := c.Get("userId")
 	if !exits {
 		log.Println("获取用户id失败")
