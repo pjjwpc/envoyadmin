@@ -63,6 +63,9 @@ func (service *SysManagerService) GetMenus(userid int, role string) (menus []mod
 		return nil, err
 	}
 	for _, dbMenu := range dbMenus {
+		if dbMenu.Type == 4 {
+			continue
+		}
 		if dbMenu.ParentID == 0 {
 			var menu models.Menu
 			menu.Path = dbMenu.Path
@@ -90,6 +93,9 @@ func (service *SysManagerService) GetMenus(userid int, role string) (menus []mod
 func getChildMenus(parentId int, menus []models.SysMenu, role string) []models.Menu {
 	var childMenus []models.Menu
 	for _, menu := range menus {
+		if menu.Type == 4 {
+			continue
+		}
 		if menu.ParentID == parentId {
 			var childMenu models.Menu
 			childMenu.Path = menu.Path
@@ -97,16 +103,16 @@ func getChildMenus(parentId int, menus []models.SysMenu, role string) []models.M
 			childMenu.Redirect = menu.Redirect
 			childMenu.Name = menu.Name
 			var meta models.Menumeta
-			meta.AlwaysShow = true
+			meta.AlwaysShow = menu.AlwaysShow
 			meta.Hidden = menu.Visible == 0
 			meta.Icon = menu.Icon
-			meta.KeepAlive = true
+			meta.KeepAlive = menu.KeepAlive
 			meta.Title = menu.Name
 			meta.Roles = []string{role}
 			childMenu.Meta = meta
 			childMenu.Children = getChildMenus(menu.ID, menus, role)
 			if len(childMenu.Children) <= 0 {
-				childMenu.Children = []models.Menu{}
+				childMenu.Children = nil
 			}
 			childMenus = append(childMenus, childMenu)
 		}

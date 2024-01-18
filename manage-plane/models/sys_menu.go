@@ -17,6 +17,8 @@ type SysMenu struct {
 	Redirect   string     `gorm:"size:128"`
 	CreateTime *time.Time `gorm:"default:null"`
 	UpdateTime *time.Time `gorm:"default:null"`
+	AlwaysShow bool       `gorm:"always_show,omitempty"`
+	KeepAlive  bool       `gorm:"keep_alive,omitempty"`
 }
 
 func (SysMenu) TableName() string {

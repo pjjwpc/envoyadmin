@@ -72,6 +72,9 @@ func setSnap(envoyClusterId int64) (*cache.Snapshot, error) {
 	for version, edsList := range map_eds[envoyClusterId] {
 		cc.Resources[types.Endpoint] = cache.NewResources(version, edsList)
 	}
+	for version, ldsList := range map_lds[envoyClusterId] {
+		cc.Resources[types.Listener] = cache.NewResources(version, ldsList)
+	}
 
 	return &cc, nil
 }
@@ -84,6 +87,7 @@ func initData() {
 	for _, envoyCluster := range envoyClusterList {
 		initCluster(envoyCluster.Id)
 		initEndPoint(envoyCluster.Id)
+		initLds(envoyCluster.Id)
 	}
 }
 func initCluster(envoyClusterId int64) {

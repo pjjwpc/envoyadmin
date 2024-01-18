@@ -7,7 +7,6 @@ import (
 
 	corev3 "github.com/envoyproxy/go-control-plane/envoy/config/core/v3"
 	discovery "github.com/envoyproxy/go-control-plane/envoy/service/discovery/v3"
-	"github.com/envoyproxy/go-control-plane/pkg/resource/v3"
 )
 
 type Callbacks struct {
@@ -46,12 +45,8 @@ func (cb *Callbacks) OnStreamRequest(id int64, req *discovery.DiscoveryRequest) 
 		close(cb.Signal)
 		cb.Signal = nil
 	}
-
-	if req.ResponseNonce != "" {
-		if req.ErrorDetail != nil {
-		} else if len(req.ResourceNames) > 0 {
-		} else if req.TypeUrl == resource.ClusterType || req.TypeUrl == resource.ListenerType {
-		}
+	if req.ErrorDetail != nil {
+		log.Println(req.ErrorDetail.Message)
 	}
 	return nil
 }
@@ -79,10 +74,12 @@ func (cb *Callbacks) OnStreamDeltaRequest(id int64, req *discovery.DeltaDiscover
 		close(cb.Signal)
 		cb.Signal = nil
 	}
+	if req.ErrorDetail != nil {
+		log.Println(req.ErrorDetail.Message)
+	} else {
+	}
 	if req.ResponseNonce != "" {
-		if req.ErrorDetail != nil {
-		} else {
-		}
+
 	}
 
 	return nil
@@ -95,6 +92,9 @@ func (cb *Callbacks) OnFetchRequest(_ context.Context, req *discovery.DiscoveryR
 	if cb.Signal != nil {
 		close(cb.Signal)
 		cb.Signal = nil
+	}
+	if req.ErrorDetail != nil {
+		log.Println(req.ErrorDetail.Message)
 	}
 	if cb.Debug {
 	}
