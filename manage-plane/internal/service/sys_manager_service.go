@@ -3,10 +3,10 @@ package service
 import (
 	"errors"
 	"log"
-	"manage-plane/db"
-	"manage-plane/models"
-	"manage-plane/models/input"
-	"manage-plane/utils"
+	"manage-plane/internal/db"
+	"manage-plane/internal/models"
+	"manage-plane/internal/models/input"
+	"manage-plane/internal/utils"
 )
 
 type SysManagerService struct {

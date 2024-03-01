@@ -2,10 +2,10 @@ package service
 
 import (
 	"errors"
-	"manage-plane/config"
-	db "manage-plane/db"
-	"manage-plane/models"
-	"manage-plane/models/query"
+	"manage-plane/internal/config"
+	db "manage-plane/internal/db"
+	"manage-plane/internal/models"
+	"manage-plane/internal/models/query"
 	"time"
 
 	cluster "github.com/envoyproxy/go-control-plane/envoy/config/cluster/v3"

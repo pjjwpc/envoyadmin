@@ -1,7 +1,7 @@
 package query
 
 import (
-	"manage-plane/models"
+	"manage-plane/internal/models"
 )
 
 type CdsQuery struct {

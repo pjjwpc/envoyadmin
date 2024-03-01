@@ -3,8 +3,8 @@ package controller
 import (
 	"io"
 	"log"
-	"manage-plane/config"
-	"manage-plane/service"
+	"manage-plane/internal/config"
+	"manage-plane/internal/service"
 	"strconv"
 
 	cluster "github.com/envoyproxy/go-control-plane/envoy/config/cluster/v3"

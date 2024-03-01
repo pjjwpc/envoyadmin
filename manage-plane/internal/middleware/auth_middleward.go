@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"manage-plane/utils"
+	"manage-plane/internal/utils"
 	"net/http"
 	"strings"
 

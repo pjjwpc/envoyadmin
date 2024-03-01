@@ -3,8 +3,8 @@ package router
 import (
 	"net/http"
 
-	api "manage-plane/controller"
-	"manage-plane/middleware"
+	api "manage-plane/internal/controller"
+	"manage-plane/internal/middleware"
 
 	"github.com/gin-gonic/gin"
 )

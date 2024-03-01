@@ -2,9 +2,9 @@ package controller
 
 import (
 	"log"
-	"manage-plane/models"
-	"manage-plane/models/input"
-	"manage-plane/service"
+	"manage-plane/internal/models"
+	"manage-plane/internal/models/input"
+	"manage-plane/internal/service"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

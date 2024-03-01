@@ -1,9 +1,9 @@
 package main
 
 import (
-	_ "manage-plane/config"
-	"manage-plane/db"
-	"manage-plane/router"
+	_ "manage-plane/internal/config"
+	"manage-plane/internal/db"
+	"manage-plane/internal/router"
 	"os"
 )
 

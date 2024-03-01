@@ -2,8 +2,8 @@ package envoyserver
 
 import (
 	"context"
-	db "control-plane/db"
-	"control-plane/models"
+	db "control-plane/internal/db"
+	"control-plane/internal/models"
 	cluster "github.com/envoyproxy/go-control-plane/envoy/config/cluster/v3"
 	endpoint "github.com/envoyproxy/go-control-plane/envoy/config/endpoint/v3"
 	listener "github.com/envoyproxy/go-control-plane/envoy/config/listener/v3"

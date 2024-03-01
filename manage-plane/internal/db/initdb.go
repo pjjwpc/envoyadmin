@@ -4,9 +4,9 @@ import (
 	"log"
 	"time"
 
-	"control-plane/config"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"manage-plane/internal/config"
 )
 
 var Orm *gorm.DB

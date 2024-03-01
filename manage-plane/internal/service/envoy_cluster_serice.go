@@ -2,8 +2,8 @@ package service
 
 import (
 	"log"
-	"manage-plane/db"
-	"manage-plane/models"
+	"manage-plane/internal/db"
+	"manage-plane/internal/models"
 )
 
 type EnvoyClusterService struct {
