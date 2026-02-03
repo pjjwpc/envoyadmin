@@ -12,8 +12,8 @@ import (
 func main() {
 	db.InitDb()
 	cache := ecpl.InitCache()
-	// Run the xDS server
 	ctx := context.Background()
+	ecpl.StartNotifyStream(ctx)
 	cb := &ecpl.Callbacks{Debug: false}
 
 	srv := server.NewServer(ctx, cache, cb)

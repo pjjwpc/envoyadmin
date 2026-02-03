@@ -73,11 +73,12 @@ func (its *ClusterService) Add(envoyClusterId int64, version string, uname strin
 		txt.Rollback()
 		return err
 	}
-	// 这里需要再测试一下，怎样给每个cds设置单独的version
-	// 现在的机制是所有的cluster使用统一的版本
-	// 所以每次新增修改时都要把集群内所有的cluster版本更新一下
-
 	txt.Commit()
-	// todo 通知envoy更新
+	PublishChange(&ChangeEvent{
+		EventType:      "cds_add",
+		EnvoyClusterId: envoyClusterId,
+		ResourceType:   "CDS",
+		Version:        version,
+	})
 	return err
 }

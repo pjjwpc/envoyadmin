@@ -1,4 +1,4 @@
-FROM golang:1.20 as build
+FROM golang:1.24 as build
 WORKDIR /src
 COPY . .
 RUN go env -w GOPROXY=https://goproxy.cn,direct

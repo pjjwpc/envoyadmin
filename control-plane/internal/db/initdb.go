@@ -14,11 +14,13 @@ var Orm *gorm.DB
 func gormDB() *gorm.DB {
 	db, err := gorm.Open(mysql.Open(config.Config.DbConfig.Dsn), &gorm.Config{})
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		return nil
 	}
 	mysqlDb, err := db.DB()
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		return nil
 	}
 
 	mysqlDb.SetMaxOpenConns(50)
